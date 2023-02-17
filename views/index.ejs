@@ -1,0 +1,99 @@
+<%- include('header'); %>
+<% 
+  function date2week(date) {
+    let onejan = new Date(date.getFullYear(), 0, 1);
+    return Math.ceil(((date - onejan) / 86400000 + onejan.getDay() + 1) / 7);
+  }
+
+  let year = new Date().getFullYear();
+  let week = date2week(new Date());
+  let isCurHours = wochen.find(item => item.w_jahr === year && item.w_woche === week);
+  if (isCurHours === undefined) {
+    isCurHours = 0;
+  }
+  else {
+    isCurHours = isCurHours.w_ist_stunden;
+  }
+%>
+    <link rel="stylesheet" href="index.css">
+    <title>Stundentracker</title>
+  </head>
+  <body>
+    <div id="bodyContainer">
+      <h1>Stundentracker</h1>
+
+      <div>
+        Neue Stunden eintragen/aktualisieren: 
+        <form method="post" action="neueStunden">
+          Woche: <input type="number" name="woche" id="newWeek">
+          Jahr: <input type="number" name="jahr" id="newYear">
+          Arbeitsstunden: <input type="number" name="stunden"
+            value="<%= isCurHours %>">
+          <input type="submit" value="Eintragen" class="btn btn-primary">
+        </form>
+        
+      </div>
+      <div class="canvas">
+        <canvas id="myChart"></canvas>
+      </div>
+      <div>
+        Bei dem aktuellem Stundenpensum wurden durchschnittlich <span id="avgHours"></span>h pro Woche gearbeitet.
+          <br>
+        Um bis zum Ende des Studiums die Stunden zu erreichen, müssten pro Woche <span id="avgHoursLeft"></span>h gearbeitet werden.
+          <br>
+        Das sind in Nicht-Vorlesungswochen <span id="avgHoursLeftNonVW"></span>h (wenn man von 8h in Vorlesungswochen ausgeht).
+      </div>
+    </div> <!-- bodyContainer -->
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script>
+      const ctx = document.getElementById('myChart');
+      <% 
+        // make array out of w_woche from object wochen
+        let w_wochen = [];
+        let w_should_hours = [];
+        let w_is_hours = [];
+        for (let i = 0; i < wochen.length; i++) {
+          w_wochen.push(wochen[i].w_woche);
+          w_should_hours.push(wochen[i].w_soll_stunden);
+          w_is_hours.push(wochen[i].w_ist_stunden);
+        }
+      %>
+      let weeks = [<%= w_wochen %>];
+      let shouldHours = [<%= w_should_hours %>];
+      let isHours = [<%= w_is_hours %>];
+    
+      let chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: weeks,
+          datasets: [{
+            label: 'Arbeitsstunden Soll',
+            fill: true,
+            data: shouldHours,
+            borderWidth: 1
+          }, {
+            label: 'Arbeitsstunden Ist',
+            fill: true,
+            data: isHours,
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          },
+          elements: {
+            point:{
+              radius: 0
+            }
+          }
+        }
+      });
+    </script>
+    <script src="index.js"></script>
+    
+<%- include('footbar'); %>

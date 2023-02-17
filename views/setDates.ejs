@@ -1,0 +1,71 @@
+<%- include('header'); %>
+    <link rel="stylesheet" href="setDates.css">
+    <title>Daten festlegen</title>
+  </head>
+  <body>
+    <h1>Daten festlegen</h1>
+    <form method="post" action="setDates">
+      <div>
+        Studium <input type="date" name="start">
+        - <input type="date" name="ende">
+      </div>
+      <div>
+        Stunden: 
+        pro Woche <input type="text" name="wochenstunden" value="20">
+        pro Tag <input type="text" name="tagesstunden" value = "8">
+      </div>
+      <div>
+        Es wird davon ausgegangen, dass in Vorlesungswochen ein Tag gearbeitet wird.
+          <br>
+        Die restlichen Stunden werden auf die Arbeitswochen verteilt.
+      </div>
+      <div>
+        1. Semester: 
+        <div>
+          Vorlesungen <input type="date" name="vb1">
+          - <input type="date" name="ve1">
+        </div>
+        <div>
+          Ferien <input type="date" name="fb1">
+          - <input type="date" name="fe1">
+        </div>
+      </div>
+      <div>
+        2. Semester: 
+        <div>
+          Vorlesungen <input type="date" name="vb2">
+          - <input type="date" name="ve2">
+        </div>
+        <div>
+          Ferien <input type="date" name="fb2">
+          - <input type="date" name="fe2">
+        </div>
+      </div>
+      <div>
+        3. Semester:
+        <div>
+          Vorlesungen <input type="date" name="vb3">
+          - <input type="date" name="ve3">
+        </div>
+        <div>
+          Ferien <input type="date" name="fb3">
+          - <input type="date" name="fe3">
+        </div>
+      </div>
+      <div>
+        4. Semester:
+        <div>
+          Vorlesungen <input type="date" name="vb4">
+          - <input type="date" name="ve4">
+        </div>
+        <div>
+          Ferien <input type="date" name="fb4">
+          - <input type="date" name="fe4">
+        </div>
+      </div>
+      
+        <input type="submit" value="Senden" class="btn btn-primary">
+
+    </form>
+
+<%- include('footbar'); %>
